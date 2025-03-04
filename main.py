@@ -2,14 +2,13 @@ import tkinter as tk
 from tkinter import *
 import os
 
-# Function to save tasks to a file
 def save_tasks():
     with open('tasks.txt', 'w') as file:
         tasks = listbox.get(0, END)
         for task in tasks:
             file.write(f"{task}\n")
 
-# Function to load tasks from a file
+
 def load_tasks():
     if os.path.exists('tasks.txt'):
         with open('tasks.txt', 'r') as file:
@@ -17,34 +16,32 @@ def load_tasks():
             for task in tasks:
                 listbox.insert(END, task.strip())
 
-# Function to add a task
 def add_task():
     task_text = task_entry.get()
     if task_text:
         listbox.insert(END, task_text)
         task_entry.delete(0, END)
-        save_tasks()  # Save the task to the file after adding
+        save_tasks()  
 
-# Function to delete a task
+
 def delete_task():
     try:
         selected_task_index = listbox.curselection()[0]
         listbox.delete(selected_task_index)
-        save_tasks()  # Save the updated task list to the file
+        save_tasks()  
     except IndexError:
         pass
 
-# Function to clear all tasks
 def clear_tasks():
     listbox.delete(0, END)
-    save_tasks()  # Save an empty list to the file
+    save_tasks()  
 
 root = tk.Tk()
 root.title("To-Do List")
-root.geometry("600x800")  # Set a larger initial size
-root.resizable(True, True)  # Allow resizing
+root.geometry("400x600")  
+root.resizable(False, False)  
 
-# GUI elements
+
 Image_icon = PhotoImage(file="./Images/task.png")
 root.iconphoto(True, Image_icon)
 
@@ -86,11 +83,9 @@ Delete_icon = PhotoImage(file="./Images/delete.png")
 delete_button = Button(root, image=Delete_icon, bd=0, command=delete_task)
 delete_button.pack(side=BOTTOM, pady=5)
 
-# Button to clear all tasks
 clear_button = Button(root, text="DELETE ALL", font="arial 20 bold", bg="#ff5a5a", fg="#fff", bd=0, command=clear_tasks)
 clear_button.pack(side=BOTTOM, pady=10)
 
-# Load existing tasks after defining the listbox
 load_tasks()
 
 root.mainloop()
